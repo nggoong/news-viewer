@@ -8,10 +8,11 @@ const Header:React.FC = () => {
         <HeaderWrapper>
             <HeaderContent>
                 <HeaderLogo>
-                    <h1>news</h1>
+                    <h1>News Viewer</h1>
                 </HeaderLogo>
                 <HeaderItems>
-                    dfsd
+                    <div>로그인</div>
+                    <div>회원가입</div>
                 </HeaderItems>
             </HeaderContent>
         </HeaderWrapper>
@@ -23,11 +24,16 @@ export default Header;
 const HeaderWrapper = styled.div`
     width:100%;
     height:60px;
+    position:fixed;
+    top:0;
+    left:0;
+    background:lightgray;
     /* background:green; */
 `
 
 const HeaderContent = styled.div`
     width:80%;
+    max-width:1000px;
     height:100%;
     /* background:yellow; */
     margin:0 auto;
@@ -45,7 +51,9 @@ const HeaderLogo = styled.div`
 `
 
 const HeaderItems = styled.div`
+    min-width:130px;
     height:100%;
     display:flex;
     align-items:center;
+    justify-content:space-between;
 `

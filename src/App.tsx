@@ -19,8 +19,8 @@ const App:React.FC = () => {
 export default App;
 
 const Content = styled.div`
+  padding-top:70px;
   width:100%;
   max-width:1000px;
   margin:0 auto;
-  background:yellow;
 `
