@@ -33,7 +33,7 @@ const HeaderWrapper = styled.div`
 `
 
 const HeaderContent = styled.div`
-    width:80%;
+    width:100%;
     max-width:1000px;
     height:100%;
     /* background:yellow; */
