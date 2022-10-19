@@ -49,6 +49,7 @@ const HeaderLogo = styled.div`
     h1 {
         font-size:34px;
         color:${({theme}) => theme.colors.mainDarkBlue};
+        cursor:pointer;
     }
 `
 
@@ -60,4 +61,5 @@ const HeaderItems = styled.div`
     align-items:center;
     justify-content:space-between;
     font-weight:bold;
+    cursor: pointer;
 `
