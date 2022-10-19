@@ -28,6 +28,7 @@ const HeaderWrapper = styled.div`
     top:0;
     left:0;
     background:lightgray;
+    z-index:1000;
     /* background:green; */
 `
 
