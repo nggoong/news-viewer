@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Viewer from './pages/Viewer';
 import Header from './components/Header/Header';
 import Searchform from './components/search/Searchform';
-import styled from 'styled-components';
+import theme from './styles/theme';
+import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
 
 const App:React.FC = () => {
 
   return (
+    <ThemeProvider theme={theme}>
     <div className="App">
       <GlobalStyle/>
       <Header/>
@@ -16,6 +18,7 @@ const App:React.FC = () => {
         <Viewer/>
       </Content>
     </div>
+    </ThemeProvider>
   );
 }
 

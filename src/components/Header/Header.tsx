@@ -27,7 +27,7 @@ const HeaderWrapper = styled.div`
     position:fixed;
     top:0;
     left:0;
-    background:lightgray;
+    background:${({theme}) => theme.colors.mainLightBlue};
     z-index:1000;
     /* background:green; */
 `
@@ -48,13 +48,16 @@ const HeaderLogo = styled.div`
     align-items:center;
     h1 {
         font-size:34px;
+        color:${({theme}) => theme.colors.mainDarkBlue};
     }
 `
 
 const HeaderItems = styled.div`
     min-width:130px;
     height:100%;
+    color:${({theme}) => theme.colors.mainDarkBlue};
     display:flex;
     align-items:center;
     justify-content:space-between;
+    font-weight:bold;
 `

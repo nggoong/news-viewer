@@ -43,4 +43,6 @@ const SearchFormButton = styled.button`
     border-radius:20px;
     cursor:pointer;
     font-weight:bold;
+    background:${({theme}) => theme.colors.mainDarkBlue};
+    color:${({theme}) => theme.colors.mainLightBlue};
 `
