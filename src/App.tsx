@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Viewer from './pages/Viewer';
 import Header from './components/Header/Header';
 import styled from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
+import {fetchNews} from './axios/axiosFunc';
 
 const App:React.FC = () => {
+  useEffect(() => {
+    fetchNews().then(res => {
+      console.log(res.data.articles[0].author);
+    });
+  }, [])
+
   return (
     <div className="App">
       <GlobalStyle/>
