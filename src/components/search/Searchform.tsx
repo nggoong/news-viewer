@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
+import { newsActions } from '../../redux/modules/newsSlice';
 
 const Searchform:React.FC = () => {
-    return (
-        <SearchFormWrapper>
-            <SearchFormInput>
 
-            </SearchFormInput>
+    useEffect(()=> {
+        console.log(selector[0])
+    }, [])
+
+    const [input, setInput] = useState<string>("");
+    const selector = useSelector((state:RootState) => state.news.news);
+
+    const inputChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
+    }
+
+    const inputSubmitHandler = (e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+    }
+
+    return (
+        <SearchFormWrapper onSubmit={inputSubmitHandler}>
+            <SearchFormInput onChange={inputChangeHandler} value={input}/>
             <SearchFormButton type="submit">
                 확인
             </SearchFormButton>
