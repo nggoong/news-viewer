@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/configStore';
 
 import NewsCard from '../components/Card/NewsCard';
 import { fetchNewsBySearch } from '../axios/axiosFunc';
 
 const Viewer:React.FC = () => {
-    // useEffect(() => {
-    //     fetchNewsBySearch("economy", 1).then(res => {
-    //       console.log(res.data.articles);
-    //     }).catch((err) => console.log(err));
-    //   }, [])
+    const newsList = useSelector((state:RootState) => state.news.news);
+    useEffect(() => {
+        console.log(newsList.length);
+      }, [newsList])
 
     return (
         <ViewerWrapper>
-            <NewsCard/>
-            <NewsCard/>
-            <NewsCard/>
+            {newsList?.map((item, index) => <NewsCard key={index}/>)}
+            
         </ViewerWrapper>
     )
 }
