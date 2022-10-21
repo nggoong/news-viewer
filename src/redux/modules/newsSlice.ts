@@ -23,22 +23,23 @@ export const fetchBySearch = createAsyncThunk('news/fetchBySearch', async(payloa
         
     }
     catch(err) {
+        dispatch(newsActions.setDefaultNews());
         console.log(err);
         alert("에러가 발생했습니다. 잠시 후 실행해주세요!");
         dispatch(setLoadingToggle());
         return;
     }
-    
+
     dispatch(setLoadingToggle());
-    return data;
+    return data.articles;
     
 })
 
 const newsSlice = createSlice({
     name:"news",
-    initialState:initialState,
+    initialState,
     reducers: {
-        setDefaultNews:(state, action: PayloadAction<InitialState>)=> {
+        setDefaultNews:(state)=> {
             state.news = [];
         }
     },
