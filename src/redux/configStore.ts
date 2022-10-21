@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import newsSlice from "./modules/newsSlice";
+import loadingSlice from "./modules/loadingSlice";
 
 const store = configureStore({
     reducer: {
-        news:newsSlice
+        news:newsSlice,
+        loading:loadingSlice
     }
 })
 
