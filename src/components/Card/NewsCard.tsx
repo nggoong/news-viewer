@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { NewsCardPropsType } from '../../model/props.model';
+import { RootState } from '../../redux/configStore';
 
-const NewsCard:React.FC<NewsCardPropsType> = ({ item, len, idx, setPage }) => {
+const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
 
     const [target, setTarget] = useState<HTMLDivElement | null>(null);
     const targetRef = useRef<HTMLDivElement | null>(null);
+    const len = useSelector((state:RootState) => state.news.news.length);
     
     const onIntersect = ([entry]:IntersectionObserverEntry[], observer:IntersectionObserver) => {
         if(entry.isIntersecting) {
@@ -28,7 +31,7 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, len, idx, setPage }) => {
     }, [target])
 
     return(
-        <NewsCardWrapper ref={targetRef}>
+        <NewsCardWrapper ref={len - 1 === idx ? setTarget:null}>
             <NewsCardImgDiv>
 
             </NewsCardImgDiv>

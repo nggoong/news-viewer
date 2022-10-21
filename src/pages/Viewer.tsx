@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/configStore';
-
+import { fetchBySearch, newsActions } from '../redux/modules/newsSlice';
 import NewsCard from '../components/Card/NewsCard';
-import { fetchNewsBySearch } from '../axios/axiosFunc';
+
 
 const Viewer:React.FC = () => {
     const newsList = useSelector((state:RootState) => state.news.news);
+    const input = useSelector((state:RootState) => state.news.input);
+    const dispatch = useDispatch<any>();
     const [page, setPage] = useState(1);
+
+    useEffect(()=> {
+        return(()=> {
+            dispatch(newsActions.setDefaultNews());
+            setPage(1);
+        })
+    }, [])
+
+
+    useEffect(() => {
+        if(page === 1) return;
+        else {
+            dispatch(fetchBySearch({input, page}));
+        }
+    }, [page])
     return (
         <ViewerWrapper>
-            {newsList?.map((item, index) => <NewsCard item={item} len={newsList.length} idx={index}
+            {newsList?.map((item, index) => <NewsCard item={item} idx={index}
             key={index} setPage={setPage}/>)}
         </ViewerWrapper>
     )

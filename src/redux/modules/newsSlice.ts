@@ -6,10 +6,12 @@ import { loadingActions } from './loadingSlice';
 
 interface InitialState{
     news:NewsArticlesType[] | any[];
+    input:string
 }
 
 const initialState:InitialState = {
-    news:[]
+    news:[],
+    input:""
 }
 
 export const fetchBySearch = createAsyncThunk('news/fetchBySearch', async(payload:FetchNewsType, { dispatch }) => {
@@ -41,11 +43,17 @@ const newsSlice = createSlice({
     reducers: {
         setDefaultNews:(state)=> {
             state.news = [];
+        },
+        setDefaultInput:(state)=> {
+            state.input="";
+        },
+        setInput:(state, action:PayloadAction<string>) => {
+            state.input= action.payload;
         }
     },
     extraReducers: {
         [fetchBySearch.fulfilled.type]:(state, action) => {
-            state.news = action.payload;
+            state.news =state.news.concat(action.payload); 
         }
     }
 })
