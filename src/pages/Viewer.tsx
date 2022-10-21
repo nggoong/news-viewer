@@ -5,11 +5,11 @@ import NewsCard from '../components/Card/NewsCard';
 import { fetchNewsBySearch } from '../axios/axiosFunc';
 
 const Viewer:React.FC = () => {
-    useEffect(() => {
-        fetchNewsBySearch("economy", 1).then(res => {
-          console.log(res.data.articles);
-        }).catch((err) => console.log(err));
-      }, [])
+    // useEffect(() => {
+    //     fetchNewsBySearch("economy", 1).then(res => {
+    //       console.log(res.data.articles);
+    //     }).catch((err) => console.log(err));
+    //   }, [])
 
     return (
         <ViewerWrapper>

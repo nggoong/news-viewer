@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/configStore';
-import { newsActions } from '../../redux/modules/newsSlice';
+import { newsActions, fetchBySearch } from '../../redux/modules/newsSlice';
 
 const Searchform:React.FC = () => {
-
-    useEffect(()=> {
-        console.log(selector[0])
-    }, [])
-
     const [input, setInput] = useState<string>("");
     const selector = useSelector((state:RootState) => state.news.news);
+    const dispatch = useDispatch<any>();
 
     const inputChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
@@ -19,7 +15,7 @@ const Searchform:React.FC = () => {
 
     const inputSubmitHandler = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+        dispatch(fetchBySearch({input, page:1}));
     }
 
     return (

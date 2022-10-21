@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { NewsArticlesType } from '../../model/news.model';
+import { FetchNewsType } from '../../model/fetchNews.model';
 import { fetchNewsBySearch } from '../../axios/axiosFunc';
 
 interface InitialState{
@@ -7,12 +8,12 @@ interface InitialState{
 }
 
 const initialState:InitialState = {
-    news:["hellow"]
+    news:[]
 }
 
-export const fetchBySearch = createAsyncThunk('news/fetchBySearch', async(payload:any, { dispatch }) => {
+export const fetchBySearch = createAsyncThunk('news/fetchBySearch', async(payload:FetchNewsType, { dispatch }) => {
     let data:any;
-    const {input, page} = payload;
+    const { input, page } = payload;
     try {
         const res = await fetchNewsBySearch(input, page);
         data = res.data;
@@ -35,7 +36,9 @@ const newsSlice = createSlice({
         }
     },
     extraReducers: {
-
+        [fetchBySearch.fulfilled.type]:(state, action) => {
+            state.news = action.payload;
+        }
     }
 })
 
