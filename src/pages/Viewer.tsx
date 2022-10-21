@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/configStore';
@@ -8,14 +8,11 @@ import { fetchNewsBySearch } from '../axios/axiosFunc';
 
 const Viewer:React.FC = () => {
     const newsList = useSelector((state:RootState) => state.news.news);
-    useEffect(() => {
-        console.log(newsList.length);
-      }, [newsList])
-
+    const [page, setPage] = useState(1);
     return (
         <ViewerWrapper>
-            {newsList?.map((item, index) => <NewsCard key={index}/>)}
-            
+            {newsList?.map((item, index) => <NewsCard item={item} len={newsList.length} idx={index}
+            key={index} setPage={setPage}/>)}
         </ViewerWrapper>
     )
 }

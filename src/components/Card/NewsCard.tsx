@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { NewsCardPropsType } from '../../model/props.model';
 
-const NewsCard:React.FC = () => {
+const NewsCard:React.FC<NewsCardPropsType> = ({ item, len, idx, setPage }) => {
 
+    const [target, setTarget] = useState<HTMLDivElement | null>(null);
+    const targetRef = useRef<HTMLDivElement | null>(null);
+    
+    const onIntersect = ([entry]:IntersectionObserverEntry[], observer:IntersectionObserver) => {
+        if(entry.isIntersecting) {
+            // 페이지 수 +1 로직
+            setPage(prev => prev + 1);
+            observer.unobserve(entry.target);
+        }
+    }
+
+    useEffect(()=> {
+        let observer: IntersectionObserver;
+        if(target) {
+            observer = new IntersectionObserver(onIntersect, {threshold:0.3});
+            observer.observe(target);
+        }
+
+        return(()=> {
+            observer && observer.disconnect();
+        })
+    }, [target])
 
     return(
-        <NewsCardWrapper>
+        <NewsCardWrapper ref={targetRef}>
             <NewsCardImgDiv>
 
             </NewsCardImgDiv>
             <NewsCardContent>
                 <NewsCardTitle>
-                    타이틀
+                    {item.title}
                 </NewsCardTitle>
             </NewsCardContent>
         </NewsCardWrapper>
@@ -42,5 +65,6 @@ const NewsCardContent = styled.div`
 `
 
 const NewsCardTitle = styled.h1 `
+    font-size:25px;
     
 `
