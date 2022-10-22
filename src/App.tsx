@@ -5,13 +5,19 @@ import Searchform from './components/search/Searchform';
 import theme from './styles/theme';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
+import Loading from './components/Loading/Loading';
+import { useSelector } from 'react-redux';
+import { RootState } from './redux/configStore';
 
 const App:React.FC = () => {
 
+  const isLoading = useSelector((state:RootState) => state.loading.loading);
+  
   return (
     <ThemeProvider theme={theme}>
     <div className="App">
       <GlobalStyle/>
+      {isLoading&&<Loading/>}
       <Header/>
       <Content>
         <Searchform/>
