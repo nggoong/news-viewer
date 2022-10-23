@@ -1,4 +1,5 @@
 import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Viewer from './pages/Viewer';
 import Header from './components/Header/Header';
 import Searchform from './components/search/Searchform';
@@ -21,7 +22,11 @@ const App:React.FC = () => {
       <Header/>
       <Content>
         <Searchform/>
-        <Viewer/>
+        <Routes>
+            <Route path="/" element={<Navigate to="/viewer/topheadline"/>}/>
+            <Route path="/viewer/topheadline" element={<Viewer/>}/>
+            <Route path="/viewer/:category" element={<Viewer/>}/>
+        </Routes>
       </Content>
     </div>
     </ThemeProvider>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/configStore';
 import { fetchBySearch, newsActions, fetchDefault } from '../redux/modules/newsSlice';
@@ -10,15 +11,17 @@ const Viewer:React.FC = () => {
     const newsList = useSelector((state:RootState) => state.news.news);
     const input = useSelector((state:RootState) => state.news.input);
     const dispatch = useDispatch<any>();
+    const pathname = useLocation().pathname;
+    const category = useParams().category;
     const [page, setPage] = useState(1);
 
     useEffect(()=> {
-        dispatch(fetchDefault());
+        if(!category) dispatch(fetchDefault());
         return(()=> {
             dispatch(newsActions.setDefaultNews());
             setPage(1);
         })
-    }, [])
+    }, [pathname])
 
 
     useEffect(() => {
