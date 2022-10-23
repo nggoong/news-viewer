@@ -15,6 +15,7 @@ const Searchform:React.FC = () => {
 
     const inputSubmitHandler = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        dispatch(newsActions.setDefaultNews());
         dispatch(newsActions.setInput(input));
         dispatch(fetchBySearch({input, page:1}));
     }

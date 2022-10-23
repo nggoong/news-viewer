@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/configStore';
-import { fetchBySearch, newsActions } from '../redux/modules/newsSlice';
+import { fetchBySearch, newsActions, fetchDefault } from '../redux/modules/newsSlice';
 import NewsCard from '../components/Card/NewsCard';
 
 
@@ -13,6 +13,7 @@ const Viewer:React.FC = () => {
     const [page, setPage] = useState(1);
 
     useEffect(()=> {
+        dispatch(fetchDefault());
         return(()=> {
             dispatch(newsActions.setDefaultNews());
             setPage(1);
@@ -21,7 +22,7 @@ const Viewer:React.FC = () => {
 
 
     useEffect(() => {
-        if(page === 1) return;
+        if(page === 1 || !input) return;
         else {
             dispatch(fetchBySearch({input, page}));
         }

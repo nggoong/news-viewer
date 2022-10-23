@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { NewsArticlesType, News } from '../../model/news.model';
 import { FetchNewsType } from '../../model/fetchNewsPayload.model';
-import { fetchNewsBySearch } from '../../axios/axiosFunc';
+import { fetchNewsBySearch, fetchNewsDefault } from '../../axios/axiosFunc';
 import { loadingActions } from './loadingSlice';
 
 interface InitialState{
@@ -13,6 +13,25 @@ const initialState:InitialState = {
     news:[],
     input:""
 }
+
+export const fetchDefault = createAsyncThunk("news/fetchDefault", async(_, { dispatch }) => {
+    let data:News;
+    const { setLoadingToggle } = loadingActions;
+    try {
+        dispatch(setLoadingToggle());
+        const res = await fetchNewsDefault();
+        data = res.data;
+    }
+    catch(err) {
+        dispatch(newsActions.setDefaultNews);
+        console.log(err);
+        alert("에러가 발생했습니다. 잠시 후 실행해주세요!");
+        dispatch(setLoadingToggle());
+        return;
+    }
+    dispatch(setLoadingToggle());
+    return data.articles;
+})
 
 export const fetchBySearch = createAsyncThunk('news/fetchBySearch', async(payload:FetchNewsType, { dispatch }) => {
     let data:News;
@@ -52,6 +71,9 @@ const newsSlice = createSlice({
         }
     },
     extraReducers: {
+        [fetchDefault.fulfilled.type]:(state, action) => {
+            state.news = state.news.concat(action.payload);
+        },
         [fetchBySearch.fulfilled.type]:(state, action) => {
             state.news =state.news.concat(action.payload); 
         }
