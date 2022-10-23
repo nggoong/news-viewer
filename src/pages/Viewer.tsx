@@ -30,10 +30,6 @@ const Viewer:React.FC = () => {
     useEffect(() => {
         console.log(category);
         dispatch(fetchBySearch({input:category, page}));
-        // if(page === 1 || !input) return;
-        // else {
-        //     dispatch(fetchBySearch({input:category, page}));
-        // }
     }, [page, category])
     return (
         <ViewerWrapper>

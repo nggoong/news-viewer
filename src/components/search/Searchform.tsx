@@ -19,8 +19,6 @@ const Searchform:React.FC = () => {
         e.preventDefault();
         dispatch(newsActions.setDefaultNews());
         navigate(`/viewer/${input}`);
-        // dispatch(newsActions.setInput(input));
-        // dispatch(fetchBySearch({input, page:1}));
     }
 
     return (
