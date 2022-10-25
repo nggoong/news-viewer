@@ -37,7 +37,7 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
             </NewsCardImgDiv>
             <NewsCardContent>
                 <NewsCardTitle>
-                    {item.title}
+                    {item?.title}
                 </NewsCardTitle>
             </NewsCardContent>
         </NewsCardWrapper>

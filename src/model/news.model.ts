@@ -1,4 +1,4 @@
-export type NewsArticlesType =  {
+export interface NewsArticlesType {
     author:string,
     content:string,
     description:string,
@@ -9,7 +9,7 @@ export type NewsArticlesType =  {
     urlToImage:string,
 }
 
-export type News = {
+export interface News {
     status:string,
     totalResults:number,
     articles: NewsArticlesType[]

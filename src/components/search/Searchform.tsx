@@ -17,6 +17,7 @@ const Searchform:React.FC = () => {
 
     const inputSubmitHandler = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        dispatch(newsActions.setInput(input));
         dispatch(newsActions.setDefaultNews());
         navigate(`/viewer/${input}`);
     }
