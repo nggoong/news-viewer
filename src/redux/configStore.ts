@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import newsSlice from "./modules/newsSlice";
 import loadingSlice from "./modules/loadingSlice";
+import userSlice from "./modules/userSlice";
 
 const store = configureStore({
     reducer: {
         news:newsSlice,
-        loading:loadingSlice
+        loading:loadingSlice,
+        user:userSlice
     }
 })
 

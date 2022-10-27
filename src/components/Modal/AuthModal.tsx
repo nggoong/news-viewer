@@ -1,10 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { userActions } from '../../redux/modules/userSlice';
 import { ModalPagePropsType } from '../../model/props.model';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User } from "firebase/auth";
 import { auth } from '../../shared/firbase';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
+    const dispatch = useDispatch();
     const firstInputRef = useRef<HTMLInputElement | null>(null);
     const [userInputs, setUserInput] = useState({
         email:"",
@@ -19,7 +22,6 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
     }
 
     const userInputsChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
-        console.log(userInputs);
         setUserInput((prev) => ({...prev, [e.target.name] : e.target.value}));
     }
 
@@ -28,16 +30,17 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
     }
 
     const goBtnClickHandler = () => {
-        const { email, password, passwordConfirm } = userInputs;
-        authFunction().then((userCredential) => {
+        authFunction().then(() => {
             if(authModal !== "login") alert("회원가입이 완료 되었습니다.");
             else alert("로그인이 완료 되었습니다.");
             setIsOpenModal(false);
         }).catch((err) => {
             if(authModal !== "login") alert("회원가입에 실패하였습니다.");
             else alert("로그인에 실패하였습니다.");
+            setIsOpenModal(false);
             const errorCode = err.code;
             const errorMessage = err.message;
+            console.log(errorCode);
             console.log(errorMessage);
         });
     }
@@ -49,11 +52,12 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
     useEffect(() => {
         onAuthStateChanged(auth, ((user:User | null) => {
             if(user) {
-                console.log(user);
                 sessionStorage.setItem("user___email", user.email!);
+                dispatch(userActions.setEmail(user.email!));
             }
             else {
                 sessionStorage.removeItem("user___email");
+                dispatch(userActions.setDefaultEmail());
                 console.log("signed out");
             }
         }))
