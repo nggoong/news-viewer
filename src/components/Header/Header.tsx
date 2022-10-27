@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
 import { HeaderPropsType } from '../../model/props.model';
+import { auth } from '../../shared/firebase';
+import { signOut } from 'firebase/auth';
 
 const Header:React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
 
     const navigate = useNavigate();
-    
+    const userEmail = useSelector((state:RootState) => state.user.email);
     const btnClickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
         setIsOpenModal(true);
         if((e.target as HTMLElement).classList.contains("login-btn")) setAuthModal("login");
@@ -18,6 +22,15 @@ const Header:React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
         navigate("/viewer/topheadline");
     }
 
+    const logoutHandler = () => {
+        signOut(auth).then(() => {
+            alert("로그아웃 되었습니다.");
+        }).catch((err) => {
+            alert("로그아웃에 실패하였습니다.");
+            console.log(err);
+        })
+    }
+
     return(
         <HeaderWrapper>
             <HeaderContent>
@@ -25,8 +38,12 @@ const Header:React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
                     <h1 onClick={LogoClicHandler}>News Viewer</h1>
                 </HeaderLogo>
                 <HeaderItems>
-                    <div className="login-btn" onClick={btnClickHandler}>로그인</div>
-                    <div className="signup-btn" onClick={btnClickHandler}>회원가입</div>
+                    {!userEmail && <><div className="login-btn" onClick={btnClickHandler}>로그인</div>
+                    <div className="signup-btn" onClick={btnClickHandler}>회원가입</div></>}
+                    {!userEmail||<>
+                    <div onClick={logoutHandler}>로그아웃</div>
+                    <div>즐겨찾기</div>
+                    </>}
                 </HeaderItems>
             </HeaderContent>
         </HeaderWrapper>

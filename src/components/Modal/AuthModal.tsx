@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { userActions } from '../../redux/modules/userSlice';
 import { ModalPagePropsType } from '../../model/props.model';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User } from "firebase/auth";
-import { auth } from '../../shared/firbase';
+import { auth } from '../../shared/firebase';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
     const dispatch = useDispatch();
