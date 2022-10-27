@@ -4,8 +4,12 @@ import { ModalPagePropsType } from '../../model/props.model';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal }) => {
 
+    const AuthModalClickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+    }
+
     return(
-        <AuthModalWrapper>
+        <AuthModalWrapper onClick={AuthModalClickHandler}>
             <AuthModalHeader>
                 {authModal === "login"?<h1>로그인</h1>:<h1>회원가입</h1>}
             </AuthModalHeader>
