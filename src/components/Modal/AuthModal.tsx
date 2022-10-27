@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ModalPagePropsType } from '../../model/props.model';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal }) => {
+    const firstInputRef = useRef<HTMLInputElement | null>(null);
 
     const AuthModalClickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
     }
+
+    useEffect(() => {
+        firstInputRef.current!.focus();
+    }, [])
 
     return(
         <AuthModalWrapper onClick={AuthModalClickHandler}>
@@ -14,7 +19,7 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal }) => {
                 {authModal === "login"?<h1>로그인</h1>:<h1>회원가입</h1>}
             </AuthModalHeader>
             <AuthModalForm>
-                <AuthModalInput placeholder="이메일을 입력하세요"/>
+                <AuthModalInput ref={firstInputRef} placeholder="이메일을 입력하세요"/>
                 <AuthModalInput placeholder="비밀번호를 입력하세요"/>
                 {authModal === "login"?null : <AuthModalInput placeholder="비밀번호 확인"/>}
             </AuthModalForm>
