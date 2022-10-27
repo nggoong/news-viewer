@@ -1,28 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { HeaderPropsType } from '../../model/props.model';
 
 const Header:React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
 
-    const loginBtnClickHandler = () => {
+    const navigate = useNavigate();
+    
+    const btnClickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
         setIsOpenModal(true);
-        setAuthModal("login");
+        if((e.target as HTMLElement).classList.contains("login-btn")) setAuthModal("login");
+        else setAuthModal("signup");
+
     }
 
-    const signUpBtnClickHandler = () => {
-        setIsOpenModal(true);
-        setAuthModal("signup");
+    const LogoClicHandler = () => {
+        navigate("/viewer/topheadline");
     }
 
     return(
         <HeaderWrapper>
             <HeaderContent>
                 <HeaderLogo>
-                    <h1>News Viewer</h1>
+                    <h1 onClick={LogoClicHandler}>News Viewer</h1>
                 </HeaderLogo>
                 <HeaderItems>
-                    <div onClick={loginBtnClickHandler}>로그인</div>
-                    <div onClick={signUpBtnClickHandler}>회원가입</div>
+                    <div className="login-btn" onClick={btnClickHandler}>로그인</div>
+                    <div className="signup-btn" onClick={btnClickHandler}>회원가입</div>
                 </HeaderItems>
             </HeaderContent>
         </HeaderWrapper>
