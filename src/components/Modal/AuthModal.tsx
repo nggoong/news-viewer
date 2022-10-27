@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ModalPagePropsType } from '../../model/props.model';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../shared/firbase';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
@@ -39,6 +39,18 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
         }
         else {
             //TODO: 기존 사용자 로그인 로직 구현
+            signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                alert("로그인 되었습니다.");
+                setIsOpenModal(false);
+                const user = userCredential.user;
+                console.log(user);
+                console.log(userCredential);
+            }).catch((err)=> {
+                alert("로그인에 실패하였습니다.");
+                const errorCode = err.code;
+                const errorMessage = err.message;
+                console.log(errorMessage);
+            })
         }
     }
 
