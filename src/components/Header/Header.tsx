@@ -1,8 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import { HeaderPropsType } from '../../model/props.model';
 
-const Header:React.FC = () => {
+const Header:React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
 
+    const loginBtnClickHandler = () => {
+        setIsOpenModal(true);
+        setAuthModal("login");
+    }
+
+    const signUpBtnClickHandler = () => {
+        setIsOpenModal(true);
+        setAuthModal("signup");
+    }
 
     return(
         <HeaderWrapper>
@@ -11,8 +21,8 @@ const Header:React.FC = () => {
                     <h1>News Viewer</h1>
                 </HeaderLogo>
                 <HeaderItems>
-                    <div>로그인</div>
-                    <div>회원가입</div>
+                    <div onClick={loginBtnClickHandler}>로그인</div>
+                    <div onClick={signUpBtnClickHandler}>회원가입</div>
                 </HeaderItems>
             </HeaderContent>
         </HeaderWrapper>

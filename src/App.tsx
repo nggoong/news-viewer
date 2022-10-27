@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Viewer from './pages/Viewer';
 import Header from './components/Header/Header';
 import Searchform from './components/search/Searchform';
+import ModalPage from './components/Modal/ModalPage';
 import theme from './styles/theme';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
@@ -11,6 +12,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './redux/configStore';
 
 const App:React.FC = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [authModal, setAuthModal] = useState("");
 
   const isLoading = useSelector((state:RootState) => state.loading.loading);
   
@@ -18,8 +21,10 @@ const App:React.FC = () => {
     <ThemeProvider theme={theme}>
     <div className="App">
       <GlobalStyle/>
+      {isOpenModal && <ModalPage setIsOpenModal={setIsOpenModal} authModal={authModal}></ModalPage>}
+      
       {isLoading&&<Loading/>}
-      <Header/>
+      <Header setIsOpenModal={setIsOpenModal} setAuthModal={setAuthModal}/>
       <Content>
         <Searchform/>
         <Routes>
