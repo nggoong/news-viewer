@@ -14,7 +14,7 @@ const ModalPage:React.FC<ModalPagePropsType> = ({ setIsOpenModal, authModal }) =
     return(
         <ModalPageWrapper onClick={modalWrapperClickHandler}>
             <div className='auth-modal-container'>
-                <AuthModal authModal={authModal}></AuthModal>
+                <AuthModal authModal={authModal} setIsOpenModal={setIsOpenModal}></AuthModal>
             </div>
         </ModalPageWrapper>
     );

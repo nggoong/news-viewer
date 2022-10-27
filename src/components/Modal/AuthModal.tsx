@@ -1,12 +1,45 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ModalPagePropsType } from '../../model/props.model';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../shared/firbase';
 
-const AuthModal:React.FC<ModalPagePropsType> = ({ authModal }) => {
+const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
     const firstInputRef = useRef<HTMLInputElement | null>(null);
+    const [userInputs, setUserInput] = useState({
+        email:"",
+        password:"",
+        passwordConfirm:""
+    })
+
+    const userInputsChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+        console.log(userInputs);
+        setUserInput((prev) => ({...prev, [e.target.name] : e.target.value}));
+    }
 
     const AuthModalClickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
+    }
+
+    const goBtnClickHandler = () => {
+        const { email, password, passwordConfirm } = userInputs;
+        if(authModal !== "login") {
+            createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                alert("회원가입이 완료 되었습니다.");
+                setIsOpenModal(false);
+                const user = userCredential.user;
+                console.log(user);
+                console.log(userCredential);
+            }).catch((err) => {
+                alert("회원가입에 실패하였습니다.");
+                const errorCode = err.code;
+                const errorMessage = err.message;
+                console.log(errorMessage);
+            });
+        }
+        else {
+            //TODO: 기존 사용자 로그인 로직 구현
+        }
     }
 
     useEffect(() => {
@@ -19,12 +52,17 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal }) => {
                 {authModal === "login"?<h1>로그인</h1>:<h1>회원가입</h1>}
             </AuthModalHeader>
             <AuthModalForm>
-                <AuthModalInput ref={firstInputRef} placeholder="이메일을 입력하세요"/>
-                <AuthModalInput placeholder="비밀번호를 입력하세요"/>
-                {authModal === "login"?null : <AuthModalInput placeholder="비밀번호 확인"/>}
+                <AuthModalInput ref={firstInputRef} onChange={userInputsChangeHandler}
+                value={userInputs.email} placeholder="이메일을 입력하세요" name="email" type="email"/>
+                <AuthModalInput onChange={userInputsChangeHandler} value={userInputs.password}
+                placeholder="비밀번호를 입력하세요" name="password" type="password"/>
+
+                {authModal === "login"?null : <AuthModalInput
+                onChange={userInputsChangeHandler} value={userInputs.passwordConfirm}
+                placeholder="비밀번호 확인" name="passwordConfirm" type="password"/>}
             </AuthModalForm>
             <AuthActionsWrapper>
-                <button>{authModal === "login"?"로그인하기":"회원가입하기"}</button>
+                <button onClick={goBtnClickHandler}>{authModal === "login"?"로그인하기":"회원가입하기"}</button>
             </AuthActionsWrapper>
         </AuthModalWrapper>
     )

@@ -7,7 +7,7 @@ export interface NewsCardPropsType {
 }
 
 export interface ModalPagePropsType {
-    setIsOpenModal?:React.Dispatch<React.SetStateAction<boolean>>;
+    setIsOpenModal:React.Dispatch<React.SetStateAction<boolean>>;
     authModal:string;
 }
 
