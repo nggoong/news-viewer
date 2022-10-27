@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/configStore';
 import { fetchBySearch, newsActions, fetchDefault } from '../redux/modules/newsSlice';
 import NewsCard from '../components/Card/NewsCard';
+import NoItem from '../components/ExComponent/NoItem';
 
 
 const Viewer:React.FC = () => {
@@ -42,6 +43,7 @@ const Viewer:React.FC = () => {
 
     return (
         <ViewerWrapper>
+            {!newsList.length &&<NoItem/>}
             {newsList?.map((item, index) => <NewsCard item={item} idx={index}
             key={index} setPage={setPage}/>)}
         </ViewerWrapper>
