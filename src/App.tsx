@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Viewer from './pages/Viewer';
 import Header from './components/Header/Header';
@@ -8,14 +8,35 @@ import theme from './styles/theme';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
 import Loading from './components/Loading/Loading';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { userActions } from './redux/modules/userSlice';
 import { RootState } from './redux/configStore';
+import { auth } from './shared/firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
 const App:React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [authModal, setAuthModal] = useState("");
 
   const isLoading = useSelector((state:RootState) => state.loading.loading);
+  const userInfo = useSelector((state:RootState) => state.user.email);
+  const dispatch = useDispatch();
+
+  // 새로고침 시 클라이언트에 유저 정보 재저장하는 로직
+  useEffect(() => {
+    const userEmail = sessionStorage.getItem("user___email");
+    if(userEmail) {
+      /** 파이어베이스에서의 로그인 유지 시간이 다 되어 만료가 되었을 수 있기 때문에 한 번 더 검사 */
+      onAuthStateChanged(auth, (user:User | null) => {
+        if(user) dispatch(userActions.setEmail(userEmail))
+        else dispatch(userActions.setDefaultEmail());
+      })
+    }
+    else {
+      if(!userInfo) return;
+      else dispatch(userActions.setDefaultEmail());
+    }
+  }, [])
   
   return (
     <ThemeProvider theme={theme}>
