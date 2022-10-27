@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ModalPagePropsType } from '../../model/props.model';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User } from "firebase/auth";
 import { auth } from '../../shared/firbase';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
@@ -11,6 +11,12 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
         password:"",
         passwordConfirm:""
     })
+
+    const authFunction = () => {
+        const { email, password, passwordConfirm } = userInputs;
+        if(authModal !== "login") return createUserWithEmailAndPassword(auth, email, password);
+        else return signInWithEmailAndPassword(auth, email, password);
+    }
 
     const userInputsChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         console.log(userInputs);
@@ -23,39 +29,34 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
 
     const goBtnClickHandler = () => {
         const { email, password, passwordConfirm } = userInputs;
-        if(authModal !== "login") {
-            createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-                alert("회원가입이 완료 되었습니다.");
-                setIsOpenModal(false);
-                const user = userCredential.user;
-                console.log(user);
-                console.log(userCredential);
-            }).catch((err) => {
-                alert("회원가입에 실패하였습니다.");
-                const errorCode = err.code;
-                const errorMessage = err.message;
-                console.log(errorMessage);
-            });
-        }
-        else {
-            //TODO: 기존 사용자 로그인 로직 구현
-            signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-                alert("로그인 되었습니다.");
-                setIsOpenModal(false);
-                const user = userCredential.user;
-                console.log(user);
-                console.log(userCredential);
-            }).catch((err)=> {
-                alert("로그인에 실패하였습니다.");
-                const errorCode = err.code;
-                const errorMessage = err.message;
-                console.log(errorMessage);
-            })
-        }
+        authFunction().then((userCredential) => {
+            if(authModal !== "login") alert("회원가입이 완료 되었습니다.");
+            else alert("로그인이 완료 되었습니다.");
+            setIsOpenModal(false);
+        }).catch((err) => {
+            if(authModal !== "login") alert("회원가입에 실패하였습니다.");
+            else alert("로그인에 실패하였습니다.");
+            const errorCode = err.code;
+            const errorMessage = err.message;
+            console.log(errorMessage);
+        });
     }
 
     useEffect(() => {
         firstInputRef.current!.focus();
+    }, [])
+
+    useEffect(() => {
+        onAuthStateChanged(auth, ((user:User | null) => {
+            if(user) {
+                console.log(user);
+                sessionStorage.setItem("user___email", user.email!);
+            }
+            else {
+                sessionStorage.removeItem("user___email");
+                console.log("signed out");
+            }
+        }))
     }, [])
 
     return(
