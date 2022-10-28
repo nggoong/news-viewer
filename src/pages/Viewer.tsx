@@ -38,6 +38,7 @@ const Viewer:React.FC = () => {
     // 페이지가 바뀔 때(무한스크롤) 다음 페이지를 보여줘야함 oo
     // 카테고리가 바뀔 때 setPage(1) 후 카테고리에 맞는 리스트를 출력해야함.
     useEffect(() => {
+        if(page === 1) return;
         dispatch(fetchBySearch({input:category, page}));
     }, [page, category])
 
