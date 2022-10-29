@@ -6,7 +6,6 @@ import { ModalPagePropsType } from '../../model/props.model';
 const ModalPage:React.FC<ModalPagePropsType> = ({ setIsOpenModal, authModal }) => {
 
     const modalWrapperClickHandler = (e:React.MouseEvent<HTMLDivElement>) => {
-        console.log(e.currentTarget.classList);
         if(e.currentTarget.classList.contains("auth-modal-container")) return;
         setIsOpenModal!(false);
     }
