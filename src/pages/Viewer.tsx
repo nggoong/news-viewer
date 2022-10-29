@@ -19,7 +19,7 @@ const Viewer:React.FC = () => {
 
     // pathname이 바뀔 때 뉴스 리스트를 default로 바꿔줘야함.
     useEffect(()=> {
-        if(pathname==="/viewer/topheadline") {                                                                                                                                                
+        if(pathname==="/viewer/topheadline" || !input) {                                                                                                                                                
             dispatch(newsActions.setDefaultNews());
             dispatch(fetchDefault()); // 이거 수정해야할거같음.
         }
