@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { NewsCardPropsType } from '../../model/props.model';
 import { RootState } from '../../redux/configStore';
+import { BsBookmarkStarFill, BsBookmarkStar } from 'react-icons/bs';
 
 const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
 
@@ -40,6 +41,9 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
                     {item?.title}
                 </NewsCardTitle>
             </NewsCardContent>
+            <NewsCardStar>
+                <BsBookmarkStar/>
+            </NewsCardStar>
         </NewsCardWrapper>
 
     )
@@ -50,21 +54,32 @@ export default NewsCard;
 const NewsCardWrapper = styled.div`
     display:flex;
     width:100%;
-    border:1px solid gray;
+    box-shadow: 1px 1px 1px 1px gray;
+    border-radius:10px;
     cursor:pointer;
 `
 
 const NewsCardImgDiv = styled.div`
     width:300px;
-    background:red;
+    /* background:red; */
     height:300px;
 `
 
 const NewsCardContent = styled.div`
-    width:calc(100% - 300px);
-    background:blue;
+    width:calc(100% - 300px - 50px);
+    /* background:blue; */
     padding:20px;
     box-sizing:border-box;
+`
+
+const NewsCardStar = styled.div`
+    width:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    
+
 `
 
 const NewsCardTitle = styled.h1 `
