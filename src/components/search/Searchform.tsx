@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { RootState } from '../../redux/configStore';
 import { newsActions, fetchBySearch } from '../../redux/modules/newsSlice';
 
@@ -10,6 +10,8 @@ const Searchform:React.FC = () => {
     const selector = useSelector((state:RootState) => state.news.news);
     const dispatch = useDispatch<any>();
     const navigate = useNavigate();
+    const pathname = useLocation().pathname;
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const inputChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
@@ -25,9 +27,18 @@ const Searchform:React.FC = () => {
         else navigate(`/viewer/${input}`);
     }
 
+    useEffect(()=> {
+        if(pathname === "/viewer/topheadline") {
+            setInput("");
+            dispatch(newsActions.setDefaultInput());
+            inputRef.current!.focus();
+        }
+    }, [pathname])
+
     return (
         <SearchFormWrapper onSubmit={inputSubmitHandler}>
-            <SearchFormInput onChange={inputChangeHandler} value={input}/>
+            <SearchFormInput onChange={inputChangeHandler} value={input} ref={inputRef}
+            placeholder="주제를 검색하세요!😁"/>
             <SearchFormButton type="submit">
                 확인
             </SearchFormButton>
