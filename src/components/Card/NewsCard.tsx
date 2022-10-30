@@ -4,10 +4,13 @@ import { useSelector } from 'react-redux';
 import { NewsCardPropsType } from '../../model/props.model';
 import { RootState } from '../../redux/configStore';
 import { BsBookmarkStarFill, BsBookmarkStar } from 'react-icons/bs';
+import { db } from '../../shared/firebase';
+import { collection, addDoc, doc, deleteDoc, getDoc, query, where } from 'firebase/firestore';
 
 const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
 
     const [target, setTarget] = useState<HTMLDivElement | null>(null);
+    const [isFavorite, setIsFavorite] = useState(false);
     const targetRef = useRef<HTMLDivElement | null>(null);
     const len = useSelector((state:RootState) => state.news.news.length);
     
@@ -17,6 +20,27 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
             setPage(prev => prev + 1);
             observer.unobserve(entry.target);
         }
+    }
+
+    const addRmFavorite = async() => {
+        try {
+            if(!isFavorite) {
+                const docRef = await addDoc(collection(db, "users"), item);
+                setIsFavorite(true);
+                alert("즐겨찾기 등록 성공!");
+            }
+            else {
+                const q = query(collection(db, "user"), where("url", "==", item.url));
+                console.log(q);
+                await deleteDoc(doc(db, "users", "Zc"));
+                setIsFavorite(false);
+            }
+            
+        } catch(err) {
+            alert("잠시 후 다시 시도해주세요.");
+            return;
+        }
+        
     }
 
     useEffect(()=> {
@@ -41,8 +65,8 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
                     {item?.title}
                 </NewsCardTitle>
             </NewsCardContent>
-            <NewsCardStar>
-                <BsBookmarkStar/>
+            <NewsCardStar onClick={addRmFavorite}>
+                {isFavorite?<BsBookmarkStarFill/>:<BsBookmarkStar/>}
             </NewsCardStar>
         </NewsCardWrapper>
 

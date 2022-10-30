@@ -41,7 +41,7 @@ const Viewer:React.FC = () => {
         <ViewerWrapper>
             {!newsList.length &&<NoItem/>}
             {newsList?.map((item, index) => <NewsCard item={item} idx={index}
-            key={index} setPage={setPage}/>)}
+            key={item.url} setPage={setPage}/>)}
         </ViewerWrapper>
     )
 }
