@@ -13,6 +13,7 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
     const [isFavorite, setIsFavorite] = useState(false);
     const targetRef = useRef<HTMLDivElement | null>(null);
     const len = useSelector((state:RootState) => state.news.news.length);
+    const userEmail = useSelector((state:RootState) => state.user.email);
     
     const onIntersect = ([entry]:IntersectionObserverEntry[], observer:IntersectionObserver) => {
         if(entry.isIntersecting) {
@@ -23,17 +24,21 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
     }
 
     const addRmFavorite = async() => {
+        if(!userEmail) {
+            alert("로그인 후 이용해주세요!");
+            return;
+        }
         try {
             if(!isFavorite) {
-                const docRef = await addDoc(collection(db, "users"), item);
+                const docRef = await addDoc(collection(db, "favorites"), {...item, userEmail});
                 setIsFavorite(true);
                 alert("즐겨찾기 등록 성공!");
             }
             else {
-                const q = query(collection(db, "user"), where("url", "==", item.url));
+                const q = query(collection(db, "favorites"), where("url", "==", item.url));
                 console.log(q);
-                await deleteDoc(doc(db, "users", "Zc"));
-                setIsFavorite(false);
+                // await deleteDoc(doc(db, "users", "Zc"));
+                // setIsFavorite(false);
             }
             
         } catch(err) {
