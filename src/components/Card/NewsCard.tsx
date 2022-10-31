@@ -23,7 +23,8 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
         }
     }
 
-    const addRmFavorite = async() => {
+    const addRmFavorite = async(e:React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
         if(!userEmail) {
             alert("로그인 후 이용해주세요!");
             return;
@@ -62,8 +63,8 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
 
     return(
         <NewsCardWrapper ref={len - 1 === idx ? setTarget:null}>
-            <NewsCardImgDiv>
-
+            <NewsCardImgDiv style={{backgroundImage:`url(${item.urlToImage})`}}>
+                
             </NewsCardImgDiv>
             <NewsCardContent>
                 <NewsCardTitle>
@@ -71,7 +72,7 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
                 </NewsCardTitle>
             </NewsCardContent>
             <NewsCardStar onClick={addRmFavorite}>
-                {isFavorite?<BsBookmarkStarFill/>:<BsBookmarkStar/>}
+                {isFavorite?<BsBookmarkStarFill className='favorite-icons'/>:<BsBookmarkStar/>}
             </NewsCardStar>
         </NewsCardWrapper>
 
@@ -92,6 +93,8 @@ const NewsCardImgDiv = styled.div`
     width:300px;
     /* background:red; */
     height:300px;
+    background-position: center;
+    background-size:300px 300px;
 `
 
 const NewsCardContent = styled.div`
