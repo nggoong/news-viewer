@@ -15,6 +15,7 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
     const targetRef = useRef<HTMLDivElement | null>(null);
     const len = useSelector((state:RootState) => state.news.news.length);
     const userEmail = useSelector((state:RootState) => state.user.email);
+    const favoritesList = useSelector((state:RootState) => state.favorites.favorites);
     
     const onIntersect = ([entry]:IntersectionObserverEntry[], observer:IntersectionObserver) => {
         if(entry.isIntersecting) {
@@ -47,6 +48,14 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
         }
         
     }
+
+    useEffect(() => {
+        const index = favoritesList.findIndex((element:any) => element.url === item.url)
+        if(index !== -1) {
+            setIsFavorite(true);
+            setDocId(favoritesList[index].docId);
+        }
+    }, [favoritesList])
 
     useEffect(()=> {
         let observer: IntersectionObserver;
