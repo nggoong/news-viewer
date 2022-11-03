@@ -10,6 +10,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import Loading from './components/Loading/Loading';
 import { useSelector, useDispatch } from 'react-redux';
 import { userActions } from './redux/modules/userSlice';
+import { favoritesActions, fetchFavorites } from './redux/modules/favoritesSlice';
 import { RootState } from './redux/configStore';
 import { auth } from './shared/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
@@ -20,6 +21,7 @@ const App:React.FC = () => {
 
   const isLoading = useSelector((state:RootState) => state.loading.loading);
   const userInfo = useSelector((state:RootState) => state.user.email);
+  const favoriteList = useSelector((state:RootState) => state.favorites.favorites);
   const dispatch = useDispatch();
 
   // 새로고침 시 클라이언트에 유저 정보 재저장하는 로직
@@ -28,13 +30,22 @@ const App:React.FC = () => {
     if(userEmail) {
       /** 파이어베이스에서의 로그인 유지 시간이 다 되어 만료가 되었을 수 있기 때문에 한 번 더 검사 */
       onAuthStateChanged(auth, (user:User | null) => {
-        if(user) dispatch(userActions.setEmail(userEmail))
-        else dispatch(userActions.setDefaultEmail());
+        if(user){
+          dispatch(userActions.setEmail(userEmail));
+          dispatch<any>(fetchFavorites());
+        }
+        else {
+          dispatch(userActions.setDefaultEmail());
+          dispatch(favoritesActions.setDefaultFavorites());
+        }
       })
     }
     else {
-      if(!userInfo) return;
-      else dispatch(userActions.setDefaultEmail());
+      if(!userInfo && !favoriteList.length) return;
+      else{
+        dispatch(userActions.setDefaultEmail());
+        dispatch(favoritesActions.setDefaultFavorites());
+      } 
     }
   }, [])
   
