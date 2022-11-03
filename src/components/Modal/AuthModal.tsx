@@ -127,6 +127,7 @@ const AuthActionsWrapper = styled.div`
         border-radius:20px;
         background:${({theme}) => theme.colors.mainDarkBlue};
         color:${({theme}) => theme.colors.mainLightBlue};
+        cursor:pointer;
     }
     
 `
