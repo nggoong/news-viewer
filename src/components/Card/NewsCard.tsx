@@ -5,12 +5,13 @@ import { NewsCardPropsType } from '../../model/props.model';
 import { RootState } from '../../redux/configStore';
 import { BsBookmarkStarFill, BsBookmarkStar } from 'react-icons/bs';
 import { db } from '../../shared/firebase';
-import { collection, addDoc, doc, deleteDoc, getDoc, query, where } from 'firebase/firestore';
+import { collection, addDoc, doc, deleteDoc, getDoc, query, where, setDoc } from 'firebase/firestore';
 
 const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
 
     const [target, setTarget] = useState<HTMLDivElement | null>(null);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [docId, setDocId] = useState("");
     const targetRef = useRef<HTMLDivElement | null>(null);
     const len = useSelector((state:RootState) => state.news.news.length);
     const userEmail = useSelector((state:RootState) => state.user.email);
@@ -30,18 +31,16 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
             return;
         }
         try {
-            if(!isFavorite) {
-                const docRef = await addDoc(collection(db, "favorites"), {...item, userEmail});
+            if(!isFavorite && !docId) {
+                const docRef = await addDoc(collection(db, `${userEmail}_favorites`), {...item, userEmail});
                 setIsFavorite(true);
-                alert("즐겨찾기 등록 성공!");
+                setDocId(docRef.id);
             }
             else {
-                const q = query(collection(db, "favorites"), where("url", "==", item.url));
-                console.log(q);
-                // await deleteDoc(doc(db, "users", "Zc"));
-                // setIsFavorite(false);
+                await deleteDoc(doc(db, `${userEmail}_favorites`, docId));
+                setIsFavorite(false);
+                setDocId("");
             }
-            
         } catch(err) {
             alert("잠시 후 다시 시도해주세요.");
             return;
