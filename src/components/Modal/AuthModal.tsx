@@ -5,6 +5,7 @@ import { userActions } from '../../redux/modules/userSlice';
 import { ModalPagePropsType } from '../../model/props.model';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User, FacebookAuthProvider, useDeviceLanguage, signInWithPopup, getAuth, signInWithCustomToken } from "firebase/auth";
 import { auth } from '../../shared/firebase';
+import { BsFacebook } from 'react-icons/bs';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
     const dispatch = useDispatch();
@@ -112,7 +113,7 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
             </AuthModalForm>
             <AuthActionsWrapper>
                 <button onClick={goBtnClickHandler}>{authModal === "login"?"로그인하기":"회원가입하기"}</button>
-                <button onClick={facebookClickHandler}>페이스북</button>
+                <button onClick={facebookClickHandler} className="facebook-login"><BsFacebook/></button>
             </AuthActionsWrapper>
         </AuthModalWrapper>
     )
@@ -154,6 +155,8 @@ const AuthActionsWrapper = styled.div`
     width:100%;
     display:flex;
     justify-content:space-between;
+    flex-direction:column;
+    gap:10px;
     button {
         width:100%;
         height:40px;
@@ -161,6 +164,17 @@ const AuthActionsWrapper = styled.div`
         background:${({theme}) => theme.colors.mainDarkBlue};
         color:${({theme}) => theme.colors.mainLightBlue};
         cursor:pointer;
+        font-weight:bold;
+        
+    }
+    button.facebook-login {
+        font-size:28px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        color:blue;
+        background:white;
+        border-color:${({theme}) => theme.colors.mainLightBlue};
     }
     
 `
