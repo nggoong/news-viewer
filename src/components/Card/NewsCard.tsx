@@ -5,7 +5,7 @@ import { NewsCardPropsType } from '../../model/props.model';
 import { RootState } from '../../redux/configStore';
 import { BsBookmarkStarFill, BsBookmarkStar } from 'react-icons/bs';
 import { db } from '../../shared/firebase';
-import { collection, addDoc, doc, deleteDoc, getDoc, query, where, setDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, deleteDoc } from 'firebase/firestore';
 
 const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
 
@@ -46,7 +46,9 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
             alert("잠시 후 다시 시도해주세요.");
             return;
         }
-        
+    }
+    const cardClickHandler = () => {
+        window.open(item.url);
     }
 
     useEffect(() => {
@@ -70,7 +72,7 @@ const NewsCard:React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
     }, [target])
 
     return(
-        <NewsCardWrapper ref={len - 1 === idx ? setTarget:null}>
+        <NewsCardWrapper ref={len - 1 === idx ? setTarget:null} onClick={cardClickHandler}>
             <NewsCardImgDiv style={{backgroundImage:`url(${item.urlToImage})`}}>
                 
             </NewsCardImgDiv>
@@ -103,6 +105,7 @@ const NewsCardImgDiv = styled.div`
     height:300px;
     background-position: center;
     background-size:300px 300px;
+    border-radius:10px;
 `
 
 const NewsCardContent = styled.div`
