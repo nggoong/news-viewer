@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../redux/modules/userSlice';
 import { ModalPagePropsType } from '../../model/props.model';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User, FacebookAuthProvider, useDeviceLanguage, signInWithPopup, getAuth, signInWithCustomToken } from "firebase/auth";
 import { auth } from '../../shared/firebase';
 
 const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
@@ -45,6 +45,38 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
         });
     }
 
+    const facebookClickHandler = () => {
+        const provider = new FacebookAuthProvider();
+        // provider.addScope("user_birthday");
+        // useDeviceLanguage(auth);
+        auth.languageCode = "it";
+        console.log(auth);
+        provider.setCustomParameters({
+            "display":"popup"
+        })
+        signInWithPopup(auth, provider).then((result) => {
+            const user = result.user;
+
+            const credential = FacebookAuthProvider.credentialFromResult(result);
+            const accessToken = credential?.accessToken!;
+            signInWithCustomToken(auth, accessToken); // 페이스북 인증을 통해 받은 토큰을 전달
+            console.log(accessToken);
+            console.log(user);
+            alert("로그인 완료");
+        }).catch((err) => {
+            alert("페이스북 인증에 실패하였습니다.");
+            const errorCode = err.code;
+            const errorMessage = err.message;
+            const email = err.customData.email;
+            const credential = FacebookAuthProvider.credentialFromError(err);
+            console.log(errorCode);
+            console.log(errorMessage);
+            console.log(email);
+            console.log(credential);
+            // https://newsviewer-5e81a.firebaseapp.com/__/auth/handler
+        })
+    }
+
     useEffect(() => {
         firstInputRef.current!.focus();
     }, [])
@@ -80,6 +112,7 @@ const AuthModal:React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) =
             </AuthModalForm>
             <AuthActionsWrapper>
                 <button onClick={goBtnClickHandler}>{authModal === "login"?"로그인하기":"회원가입하기"}</button>
+                <button onClick={facebookClickHandler}>페이스북</button>
             </AuthActionsWrapper>
         </AuthModalWrapper>
     )
