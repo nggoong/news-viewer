@@ -42,7 +42,7 @@ const Header:React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
                     <div className="signup-btn" onClick={btnClickHandler}>회원가입</div></>}
                     {!userEmail||<>
                     <div onClick={logoutHandler}>로그아웃</div>
-                    <div>즐겨찾기</div>
+                    <div onClick={()=>navigate("/favorite/viewer")}>즐겨찾기</div>
                     </>}
                 </HeaderItems>
             </HeaderContent>

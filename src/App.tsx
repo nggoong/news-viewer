@@ -14,6 +14,7 @@ import { favoritesActions, fetchFavorites } from './redux/modules/favoritesSlice
 import { RootState } from './redux/configStore';
 import { auth } from './shared/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import FavoriteViewer from './pages/FavoriteViewer';
 
 const App:React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -63,6 +64,7 @@ const App:React.FC = () => {
             <Route path="/" element={<Navigate to="/viewer/topheadline"/>}/>
             <Route path="/viewer/topheadline" element={<Viewer/>}/>
             <Route path="/viewer/:category" element={<Viewer/>}/>
+            <Route path="/favorite/viewer" element={<FavoriteViewer/>}/>
         </Routes>
       </Content>
     </div>
