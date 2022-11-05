@@ -7,15 +7,13 @@ import store from './redux/configStore';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <BrowserRouter>
-  <Provider store={store}>
-    <App />
-    </Provider>
-    </BrowserRouter>
+	<BrowserRouter>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</BrowserRouter>,
 );
 
 // If you want to start measuring performance in your app, pass a function

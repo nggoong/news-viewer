@@ -1,25 +1,25 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
-    email:string
+	email: string;
 }
 
-const initialState:InitialState = {
-    email:""
-}
+const initialState: InitialState = {
+	email: '',
+};
 
 const userSlice = createSlice({
-    name:"user",
-    initialState,
-    reducers: {
-        setDefaultEmail:(state)=> {
-            state.email = "";
-        },
-        setEmail:(state, action:PayloadAction<string>)=> {
-            state.email = action.payload;
-        }
-    }
-})
+	name: 'user',
+	initialState,
+	reducers: {
+		setDefaultEmail: (state) => {
+			state.email = '';
+		},
+		setEmail: (state, action: PayloadAction<string>) => {
+			state.email = action.payload;
+		},
+	},
+});
 
 const userActions = userSlice.actions;
 export { userActions };

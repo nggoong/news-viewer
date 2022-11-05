@@ -1,4 +1,4 @@
 export interface FetchNewsType {
-    input:string;
-    page:number;
+	input: string;
+	page: number;
 }

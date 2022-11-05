@@ -1,11 +1,10 @@
 const colors = {
-    mainLightBlue:"#DCE2F0",
-    mainDarkBlue:"#50586C"
-}
-
+	mainLightBlue: '#DCE2F0',
+	mainDarkBlue: '#50586C',
+};
 
 const theme = {
-    colors
-}
+	colors,
+};
 
 export default theme;
