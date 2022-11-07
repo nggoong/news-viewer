@@ -14,6 +14,5 @@ module.exports = {
 	rules: {
 		'prefer-const': 'warn', // let 사용 경고
 		'no-var': 'error', // var 금지
-		'eqeqeq': 'error', // == 사용 금지
 	},
 };
