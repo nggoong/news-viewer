@@ -13,7 +13,7 @@
 3. eslint/prettier
 4. husky(git hook)
 5. Intersection Observer API
-5. styled-component
-6. firestore
-7. firebase auth
-8. axios
+6. styled-component
+7. firestore
+8. firebase auth
+9. axios
