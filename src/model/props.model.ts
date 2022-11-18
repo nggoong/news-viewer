@@ -15,3 +15,7 @@ export interface HeaderPropsType {
 	setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 	setAuthModal: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export interface FavoriteCardType {
+	item: NewsArticlesType;
+}
