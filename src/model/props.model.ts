@@ -1,4 +1,4 @@
-import { NewsArticlesType } from './news.model';
+import { NewsArticlesType, FavoriteArticleType } from './news.model';
 
 export interface NewsCardPropsType {
 	item: NewsArticlesType;
@@ -17,5 +17,5 @@ export interface HeaderPropsType {
 }
 
 export interface FavoriteCardType {
-	item: NewsArticlesType;
+	item: FavoriteArticleType;
 }

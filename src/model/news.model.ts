@@ -9,6 +9,11 @@ export interface NewsArticlesType {
 	urlToImage: string;
 }
 
+export interface FavoriteArticleType extends NewsArticlesType {
+	docId: string;
+	userEmail: string;
+}
+
 export interface News {
 	status: string;
 	totalResults: number;
