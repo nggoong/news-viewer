@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FavoriteCardType } from '../../model/props.model';
+import { AiFillDelete } from 'react-icons/ai';
 
 const FavoriteCard: React.FC<FavoriteCardType> = ({ item }) => {
 	return (
@@ -9,7 +10,11 @@ const FavoriteCard: React.FC<FavoriteCardType> = ({ item }) => {
 			<FavoriteCardContent>
 				<h2>{item.title}</h2>
 			</FavoriteCardContent>
-			<FavoriteCardActions />
+			<FavoriteCardActions>
+				<p>
+					<AiFillDelete />
+				</p>
+			</FavoriteCardActions>
 		</FavoriteCardWrapper>
 	);
 };
@@ -23,7 +28,6 @@ const FavoriteCardWrapper = styled.div`
 `;
 
 const FavoriteCardImage = styled.div`
-	background: yellow;
 	width: 100%;
 	height: 300px;
 	border-top-left-radius: 20px;
@@ -40,8 +44,10 @@ const FavoriteCardContent = styled.div`
 	padding: 20px;
 	box-sizing: border-box;
 	min-height: 100px;
-
-	/* border-radius:20px; */
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 `;
 
 const FavoriteCardActions = styled.div`
@@ -49,4 +55,14 @@ const FavoriteCardActions = styled.div`
 	width: 100%;
 	height: 50px;
 	border-radius: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	p {
+		color: ${({ theme }) => theme.colors.mainLightBlue};
+		font-size: 30px;
+		display: flex;
+		align-items: center;
+	}
 `;
