@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FavoriteCard from '../components/Card/FavoriteCard';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/configStore';
+import { fetchFavorites, favoritesActions } from '../redux/modules/favoritesSlice';
 
 const FavoriteViewer: React.FC = () => {
 	const FavoriteList = useSelector((state: RootState) => state.favorites.favorites);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch<any>(fetchFavorites());
+		return () => {
+			dispatch(favoritesActions.setDefaultFavorites());
+		};
+	}, []);
 	return (
 		<FavoriteViewerWrapper>
 			{FavoriteList.map((item, index) => (
