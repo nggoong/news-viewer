@@ -27,11 +27,17 @@ const FavoriteViewer: React.FC = () => {
 export default FavoriteViewer;
 
 const FavoriteViewerWrapper = styled.div`
-	width: 100%;
+	width: 850px;
 	display: flex;
 	flex-wrap: wrap;
 	/* background:blue; */
-	justify-content: center;
+	/* justify-content: center; */
 	margin: 0 auto;
 	gap: 50px;
+`;
+
+const FavoriteContentWrapper = styled.div`
+	background: blue;
+	display: flex;
+	flex-wrap: wrap;
 `;
