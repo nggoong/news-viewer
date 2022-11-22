@@ -40,59 +40,42 @@ const AuthModal: React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) 
 		e.stopPropagation();
 	};
 
-	const goBtnClickHandler = () => {
-		authFunction()
-			.then(() => {
-				if (authModal !== 'login') alert('회원가입이 완료 되었습니다.');
-				else alert('로그인이 완료 되었습니다.');
-				setIsOpenModal(false);
-			})
-			.catch((err) => {
-				if (authModal !== 'login') alert('회원가입에 실패하였습니다.');
-				else alert('로그인에 실패하였습니다.');
-				setIsOpenModal(false);
-				const errorCode = err.code;
-				const errorMessage = err.message;
-				console.log(errorCode);
-				console.log(errorMessage);
-			});
+	const goBtnClickHandler = async () => {
+		try {
+			await authFunction();
+			if (authModal !== 'login') alert('회원가입이 완료 되었습니다.');
+			else alert('로그인이 완료되었습니다.');
+			setIsOpenModal(false);
+		} catch (err) {
+			if (authModal !== 'login') alert('회원가입에 실패하였습니다.');
+			else alert('로그인에 실패하였습니다.');
+			setIsOpenModal(false);
+		}
 	};
 
-	const facebookClickHandler = () => {
+	const facebookClickHandler = async () => {
 		const provider = new FacebookAuthProvider();
-		// provider.addScope("user_birthday");
-		// useDeviceLanguage(auth);
 		auth.languageCode = 'it';
-		console.log(auth);
 		provider.setCustomParameters({
 			display: 'popup',
 		});
-		signInWithPopup(auth, provider)
-			.then((result) => {
-				const user = result.user;
 
-				const credential = FacebookAuthProvider.credentialFromResult(result);
-				const accessToken = credential?.accessToken;
-				if (!accessToken) throw new Error('could not receive token');
-				else {
-					signInWithCustomToken(auth, accessToken); // 페이스북 인증을 통해 받은 토큰을 전달
-					console.log(accessToken);
-					console.log(user);
-					alert('로그인 완료');
-				}
-			})
-			.catch((err) => {
-				alert('페이스북 인증에 실패하였습니다.');
-				const errorCode = err.code;
-				const errorMessage = err.message;
-				const email = err.customData.email;
-				const credential = FacebookAuthProvider.credentialFromError(err);
-				console.log(errorCode);
-				console.log(errorMessage);
-				console.log(email);
-				console.log(credential);
-				// https://newsviewer-5e81a.firebaseapp.com/__/auth/handler
-			});
+		try {
+			const result = await signInWithPopup(auth, provider);
+			const user = result.user;
+			const credential = FacebookAuthProvider.credentialFromResult(result);
+			const accessToken = credential?.accessToken;
+			if (!accessToken) throw new Error('could not receive token');
+			else {
+				signInWithCustomToken(auth, accessToken); // 페이스북 인증을 통해 받은 토큰을 전달
+				console.log(accessToken);
+				console.log(user);
+				alert('로그인 완료');
+			}
+		} catch (err) {
+			alert('페이스북 인증에 실패하였습니다.');
+			console.log(err);
+		}
 	};
 
 	useEffect(() => {

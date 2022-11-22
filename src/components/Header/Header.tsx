@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 import { HeaderPropsType } from '../../model/props.model';
@@ -9,6 +9,7 @@ import { signOut } from 'firebase/auth';
 
 const Header: React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
 	const userEmail = useSelector((state: RootState) => state.user.email);
 	const btnClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
 		setIsOpenModal(true);
@@ -20,15 +21,15 @@ const Header: React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => 
 		navigate('/viewer/topheadline');
 	};
 
-	const logoutHandler = () => {
-		signOut(auth)
-			.then(() => {
-				alert('로그아웃 되었습니다.');
-			})
-			.catch((err) => {
-				alert('로그아웃에 실패하였습니다.');
-				console.log(err);
-			});
+	const logoutHandler = async () => {
+		try {
+			await signOut(auth);
+			alert('로그아웃 되었습니다.');
+			if (pathname !== '/viewer/topheadline') navigate('/viewer/topheadline');
+		} catch (err) {
+			alert('로그아웃에 실패하였습니다.');
+			console.log(err);
+		}
 	};
 
 	return (
