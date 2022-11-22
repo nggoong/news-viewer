@@ -2,8 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import { FavoriteCardType } from '../../model/props.model';
 import { AiFillDelete } from 'react-icons/ai';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../../shared/firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/configStore';
+import { fetchFavorites } from '../../redux/modules/favoritesSlice';
 
 const FavoriteCard: React.FC<FavoriteCardType> = ({ item }) => {
+	const userEmail = useSelector((state: RootState) => state.user.email);
+	const dispatch = useDispatch();
+
+	const clickDeleteFavoriteBtn = async (e: React.MouseEvent<HTMLParagraphElement>) => {
+		const confirm = window.confirm('삭제하시겠습니까?');
+		if (!confirm) return;
+		const docId = e.currentTarget.dataset.docId;
+		await deleteDoc(doc(db, `${userEmail}_favorites`, String(docId)));
+		await dispatch<any>(fetchFavorites());
+	};
 	return (
 		<FavoriteCardWrapper>
 			<FavoriteCardImage style={{ backgroundImage: `url(${item.urlToImage})` }} />
@@ -11,7 +26,7 @@ const FavoriteCard: React.FC<FavoriteCardType> = ({ item }) => {
 				<h2>{item.title}</h2>
 			</FavoriteCardContent>
 			<FavoriteCardActions>
-				<p>
+				<p onClick={clickDeleteFavoriteBtn} data-doc-id={item.docId}>
 					<AiFillDelete />
 				</p>
 			</FavoriteCardActions>
