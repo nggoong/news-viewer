@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/configStore';
 import { fetchFavorites, favoritesActions } from '../redux/modules/favoritesSlice';
 
-const FavoriteViewer: React.FC = () => {
+const FavoriteViewer = () => {
 	const FavoriteList = useSelector((state: RootState) => state.favorites.favorites);
 	const dispatch = useDispatch();
 

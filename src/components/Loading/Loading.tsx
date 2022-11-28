@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Loading: React.FC = () => {
+const Loading = () => {
 	return <LoadingWrapper>Loading...🙄</LoadingWrapper>;
 };
 

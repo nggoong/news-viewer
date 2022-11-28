@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { RootState } from '../../redux/configStore';
 import { newsActions, fetchBySearch } from '../../redux/modules/newsSlice';
 
-const Searchform: React.FC = () => {
+const Searchform = () => {
 	const [input, setInput] = useState<string>('');
 	const selector = useSelector((state: RootState) => state.news.news);
 	const dispatch = useDispatch<any>();

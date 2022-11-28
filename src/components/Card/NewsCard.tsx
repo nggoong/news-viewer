@@ -7,7 +7,7 @@ import { BsBookmarkStarFill, BsBookmarkStar } from 'react-icons/bs';
 import { db } from '../../shared/firebase';
 import { collection, addDoc, doc, deleteDoc } from 'firebase/firestore';
 
-const NewsCard: React.FC<NewsCardPropsType> = ({ item, idx, setPage }) => {
+const NewsCard = ({ item, idx, setPage }: NewsCardPropsType) => {
 	const [target, setTarget] = useState<HTMLDivElement | null>(null);
 	const [isFavorite, setIsFavorite] = useState(false);
 	const [docId, setDocId] = useState('');

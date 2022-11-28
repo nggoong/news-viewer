@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const NoItem: React.FC = () => {
+const NoItem = () => {
 	return (
 		<NoItemWrapper>
 			<h1>검색된 뉴스가 없습니다🥺</h1>

@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 import { fetchFavorites } from '../../redux/modules/favoritesSlice';
 
-const FavoriteCard: React.FC<FavoriteCardType> = ({ item }) => {
+const FavoriteCard = ({ item }: FavoriteCardType) => {
 	const userEmail = useSelector((state: RootState) => state.user.email);
 	const dispatch = useDispatch();
 

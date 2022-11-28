@@ -7,7 +7,7 @@ import { HeaderPropsType } from '../../model/props.model';
 import { auth } from '../../shared/firebase';
 import { signOut } from 'firebase/auth';
 
-const Header: React.FC<HeaderPropsType> = ({ setIsOpenModal, setAuthModal }) => {
+const Header = ({ setIsOpenModal, setAuthModal }: HeaderPropsType) => {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 	const userEmail = useSelector((state: RootState) => state.user.email);

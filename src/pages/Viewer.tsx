@@ -7,7 +7,7 @@ import { fetchBySearch, newsActions, fetchDefault } from '../redux/modules/newsS
 import NewsCard from '../components/Card/NewsCard';
 import NoItem from '../components/ExComponent/NoItem';
 
-const Viewer: React.FC = () => {
+const Viewer = () => {
 	const newsList = useSelector((state: RootState) => state.news.news);
 	const input = useSelector((state: RootState) => state.news.input);
 	const dispatch = useDispatch<any>();

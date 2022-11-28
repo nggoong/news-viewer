@@ -17,7 +17,7 @@ import {
 import { auth } from '../../shared/firebase';
 import { BsFacebook } from 'react-icons/bs';
 
-const AuthModal: React.FC<ModalPagePropsType> = ({ authModal, setIsOpenModal }) => {
+const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 	const dispatch = useDispatch();
 	const firstInputRef = useRef<HTMLInputElement | null>(null);
 	const [userInputs, setUserInput] = useState({
