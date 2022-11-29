@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { NewsArticlesType, News } from '../../model/news.model';
 import { FetchNewsType } from '../../model/fetchNewsPayload.model';
-import { fetchNewsBySearch, fetchNewsDefault } from '../../axios/axiosFunc';
+import { fetchNewsFn } from '../../axios/axiosFunc';
 import { loadingActions } from './loadingSlice';
 
 interface InitialState {
@@ -17,6 +17,7 @@ const initialState: InitialState = {
 export const fetchDefault = createAsyncThunk('news/fetchDefault', async (_, { dispatch }) => {
 	let data: News;
 	const { setLoadingToggle } = loadingActions;
+	const { fetchNewsDefault } = fetchNewsFn;
 	try {
 		dispatch(setLoadingToggle());
 		const res = await fetchNewsDefault();
@@ -36,6 +37,7 @@ export const fetchBySearch = createAsyncThunk('news/fetchBySearch', async (paylo
 	let data: News;
 	const { input, page } = payload;
 	const { setLoadingToggle } = loadingActions;
+	const { fetchNewsBySearch } = fetchNewsFn;
 	try {
 		dispatch(setLoadingToggle());
 		const res = await fetchNewsBySearch(input, page);
