@@ -12,9 +12,10 @@
 2. typescript
 3. eslint/prettier
 4. husky(git hook)
-5. React Testing Library
-6. Intersection Observer API
-7. styled-component
-8. firestore
-9. firebase auth
-10. axios
+5. react-error-boundary
+6. React Testing Library
+7. Intersection Observer API
+8. styled-component
+9. firestore
+10. firebase auth
+11. axios
