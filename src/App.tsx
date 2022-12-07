@@ -15,6 +15,8 @@ import { RootState } from './redux/configStore';
 import { auth } from './shared/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import FavoriteViewer from './pages/FavoriteViewer';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallbackComponent from './components/ExComponent/ErrorFallbackComponent';
 
 const App: React.FC = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
@@ -25,11 +27,9 @@ const App: React.FC = () => {
 	const favoriteList = useSelector((state: RootState) => state.favorites.favorites);
 	const dispatch = useDispatch();
 
-	// 새로고침 시 클라이언트에 유저 정보 재저장하는 로직
 	useEffect(() => {
 		const userEmail = sessionStorage.getItem('user___email');
 		if (userEmail) {
-			/** 파이어베이스에서의 로그인 유지 시간이 다 되어 만료가 되었을 수 있기 때문에 한 번 더 검사 */
 			onAuthStateChanged(auth, (user: User | null) => {
 				if (user) {
 					dispatch(userActions.setEmail(userEmail));
@@ -50,22 +50,24 @@ const App: React.FC = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<div className="App">
-				<GlobalStyle />
-				{isOpenModal && <ModalPage setIsOpenModal={setIsOpenModal} authModal={authModal}></ModalPage>}
+			<ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+				<div className="App">
+					<GlobalStyle />
+					{isOpenModal && <ModalPage setIsOpenModal={setIsOpenModal} authModal={authModal}></ModalPage>}
 
-				{isLoading && <Loading />}
-				<Header setIsOpenModal={setIsOpenModal} setAuthModal={setAuthModal} />
-				<Content>
-					<Searchform />
-					<Routes>
-						<Route path="/" element={<Navigate to="/viewer/topheadline" />} />
-						<Route path="/viewer/topheadline" element={<Viewer />} />
-						<Route path="/viewer/:category" element={<Viewer />} />
-						<Route path="/favorite/viewer" element={<FavoriteViewer />} />
-					</Routes>
-				</Content>
-			</div>
+					{isLoading && <Loading />}
+					<Header setIsOpenModal={setIsOpenModal} setAuthModal={setAuthModal} />
+					<Content>
+						<Searchform />
+						<Routes>
+							<Route path="/" element={<Navigate to="/viewer/topheadline" />} />
+							<Route path="/viewer/topheadline" element={<Viewer />} />
+							<Route path="/viewer/:category" element={<Viewer />} />
+							<Route path="/favorite/viewer" element={<FavoriteViewer />} />
+						</Routes>
+					</Content>
+				</div>
+			</ErrorBoundary>
 		</ThemeProvider>
 	);
 };
