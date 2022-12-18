@@ -7,7 +7,7 @@ import { newsActions, fetchBySearch } from '../../redux/modules/newsSlice';
 import useOnlyInput from '../../hooks/useOnlyInput';
 
 const Searchform = () => {
-	const [input, setInput, changeInputHandler] = useOnlyInput("");
+	const [input, setInput, changeInputHandler] = useOnlyInput('');
 	const selector = useSelector((state: RootState) => state.news.news);
 	const dispatch = useDispatch<any>();
 	const navigate = useNavigate();
