@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 
-const useOnlyInput = (initialState: string) => {
+const useOnlyInput = (initialState: string):[string, React.Dispatch<React.SetStateAction<string>>, React.ChangeEventHandler<HTMLInputElement>] => {
 	const [state, setState] = useState(initialState);
 	const changeHandler = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -9,6 +9,6 @@ const useOnlyInput = (initialState: string) => {
 		},
 		[state],
 	);
-	return [state, changeHandler];
+	return [state, setState, changeHandler];
 };
 export default useOnlyInput;

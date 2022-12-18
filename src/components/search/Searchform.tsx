@@ -4,24 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { RootState } from '../../redux/configStore';
 import { newsActions, fetchBySearch } from '../../redux/modules/newsSlice';
+import useOnlyInput from '../../hooks/useOnlyInput';
 
 const Searchform = () => {
-	const [input, setInput] = useState<string>('');
+	const [input, setInput, changeInputHandler] = useOnlyInput("");
 	const selector = useSelector((state: RootState) => state.news.news);
 	const dispatch = useDispatch<any>();
 	const navigate = useNavigate();
 	const pathname = useLocation().pathname;
 	const inputRef = useRef<HTMLInputElement | null>(null);
 
-	const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setInput(e.target.value);
-	};
-
 	const inputSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		dispatch(newsActions.setInput(input));
-		// dispatch(newsActions.setDefaultNews());
 
 		if (!input) navigate('/viewer/topheadline');
 		else navigate(`/viewer/${input}`);
@@ -37,7 +33,7 @@ const Searchform = () => {
 
 	return (
 		<SearchFormWrapper onSubmit={inputSubmitHandler}>
-			<SearchFormInput onChange={inputChangeHandler} value={input} ref={inputRef} placeholder="주제를 검색하세요!😁" />
+			<SearchFormInput onChange={changeInputHandler} value={input} ref={inputRef} placeholder="주제를 검색하세요!😁" />
 			<SearchFormButton type="submit">확인</SearchFormButton>
 		</SearchFormWrapper>
 	);
