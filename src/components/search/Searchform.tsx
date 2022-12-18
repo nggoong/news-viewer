@@ -26,7 +26,6 @@ const Searchform = () => {
 	useEffect(() => {
 		if (pathname === '/viewer/topheadline') {
 			setInput('');
-			dispatch(newsActions.setDefaultInput());
 			inputRef.current!.focus();
 		}
 	}, [pathname]);
