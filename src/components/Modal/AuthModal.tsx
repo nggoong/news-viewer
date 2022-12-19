@@ -31,10 +31,9 @@ const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 		const { email, password, passwordConfirm } = userInputs;
 		if (authModal !== 'login') return createUserWithEmailAndPassword(auth, email, password);
 		else {
-			if(password !== passwordConfirm) return;
+			if (password !== passwordConfirm) return;
 			return signInWithEmailAndPassword(auth, email, password);
 		}
-			
 	};
 
 	const AuthModalClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
