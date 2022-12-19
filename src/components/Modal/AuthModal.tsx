@@ -16,11 +16,12 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../shared/firebase';
 import { BsFacebook } from 'react-icons/bs';
+import useMultiInputs from '../../hooks/useMultiInputs';
 
 const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 	const dispatch = useDispatch();
 	const firstInputRef = useRef<HTMLInputElement | null>(null);
-	const [userInputs, setUserInput] = useState({
+	const [userInputs, setUserInput, changeUserInput] = useMultiInputs({
 		email: '',
 		password: '',
 		passwordConfirm: '',
@@ -30,10 +31,6 @@ const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 		const { email, password, passwordConfirm } = userInputs;
 		if (authModal !== 'login') return createUserWithEmailAndPassword(auth, email, password);
 		else return signInWithEmailAndPassword(auth, email, password);
-	};
-
-	const userInputsChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setUserInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
 
 	const AuthModalClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -101,14 +98,14 @@ const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 			<AuthModalForm>
 				<AuthModalInput
 					ref={firstInputRef}
-					onChange={userInputsChangeHandler}
+					onChange={changeUserInput}
 					value={userInputs.email}
 					placeholder="이메일을 입력하세요"
 					name="email"
 					type="email"
 				/>
 				<AuthModalInput
-					onChange={userInputsChangeHandler}
+					onChange={changeUserInput}
 					value={userInputs.password}
 					placeholder="비밀번호를 입력하세요"
 					name="password"
@@ -117,7 +114,7 @@ const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 
 				{authModal === 'login' ? null : (
 					<AuthModalInput
-						onChange={userInputsChangeHandler}
+						onChange={changeUserInput}
 						value={userInputs.passwordConfirm}
 						placeholder="비밀번호 확인"
 						name="passwordConfirm"
