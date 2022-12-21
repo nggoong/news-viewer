@@ -17,6 +17,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import FavoriteViewer from './pages/FavoriteViewer';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallbackComponent from './components/ExComponent/ErrorFallbackComponent';
+import { Helmet } from 'react-helmet-async';
 
 const App: React.FC = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
@@ -52,6 +53,9 @@ const App: React.FC = () => {
 		<ThemeProvider theme={theme}>
 			<ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
 				<div className="App">
+					<Helmet>
+						<title>News Viewer</title>
+					</Helmet>
 					<GlobalStyle />
 					{isOpenModal && <ModalPage setIsOpenModal={setIsOpenModal} authModal={authModal}></ModalPage>}
 

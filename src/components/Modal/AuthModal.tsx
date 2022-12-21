@@ -17,6 +17,7 @@ import {
 import { auth } from '../../shared/firebase';
 import { BsFacebook } from 'react-icons/bs';
 import useMultiInputs from '../../hooks/useMultiInputs';
+import { Helmet } from 'react-helmet-async';
 
 const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 	const dispatch = useDispatch();
@@ -97,6 +98,9 @@ const AuthModal = ({ authModal, setIsOpenModal }: ModalPagePropsType) => {
 
 	return (
 		<AuthModalWrapper onClick={AuthModalClickHandler}>
+			<Helmet>
+				<title>{authModal === 'login' ? '로그인' : '회원가입'}</title>
+			</Helmet>
 			<AuthModalHeader>{authModal === 'login' ? <h1>로그인</h1> : <h1>회원가입</h1>}</AuthModalHeader>
 			<AuthModalForm>
 				<AuthModalInput
